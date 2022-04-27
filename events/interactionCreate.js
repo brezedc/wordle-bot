@@ -1,4 +1,4 @@
-module.exports = (client, interaction) => {
+export default (client, interaction) => {
     if (!interaction.guild) return;
 
     if (interaction.isCommand() || interaction.isContextMenu()) {
@@ -7,6 +7,6 @@ module.exports = (client, interaction) => {
             return;
         }
 
-        cmd.run(require("discord.js"), client, interaction);
+        cmd.run(client, interaction);
     }
 };

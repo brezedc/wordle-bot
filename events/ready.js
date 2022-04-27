@@ -1,10 +1,12 @@
-const config = require("../config.json");
+import config from "../config.json" assert { type: "json" };
 
-module.exports = async (client) => {
-    client.user.setPresence({ activities: [{ name: "Status" }], status: "online" });
+export default async (client) => {
+    setTimeout(() => {
+        client.user.setActivity(`/help | ${client.guilds.cache.size} servers`, { type: "WATCHING" });
+    }, 60 * 1000);
 
     if (config.devMode) {
-        let guild = client.guilds.cache.get(config.guild);
+        let guild = client.guilds.cache.get(config.devGuild);
 
         if (!guild) return console.log("Could not find the guild in config.json.");
         await guild.commands.set(client.rawSlashCommands).then((cmd) => {
@@ -40,7 +42,11 @@ module.exports = async (client) => {
             }, []);
 
             guild.commands.permissions.set({ fullPermissions });
-            console.log("Successfully started bot");
+            console.log("[DEV-MODE] Successfully refreshed application (/) application");
         });
+    } else {
+        console.log("Started refreshing application (/) commands.");
+        await client.application.commands.set(client.rawSlashCommands);
+        console.log("Successfully refreshed application (/) application");
     }
 };

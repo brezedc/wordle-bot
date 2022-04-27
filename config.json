@@ -1,16 +1,15 @@
 {
-    "devMode": true,
-    "guild": "881548371192602624",
+    "devMode": false,
+    "devGuild": "881548371192602624",
+    "timeout": 5,
+    "attempts": 5,
     "embeds": {
         "colors": {
-            "primary": "0x00FF00",
+            "primary": "#b59f3b",
             "error": "0xFF0000",
-            "success": "0x00FF00",
-            "warning": "0xFFD700"
+            "success": "#538d4e"
         },
-        "footer": {
-            "text": "FOOTER_TEXT"
-        },
-        "logo": "LOGO_URL"
+        "footer": "Wordle - Made By Breze#1337",
+        "logo": "https://cdn.discordapp.com/attachments/881858068051288085/968934661512388668/worldelogo.png"
     }
 }

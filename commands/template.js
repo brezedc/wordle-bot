@@ -1,9 +1,9 @@
-module.exports = {
+export default {
     type: 1,
     options: [],
     name: "name",
-    desc: "description",
+    description: "description",
     userPermissions: ["BAN_MEMBERS"],
 
-    run: async (Discord, client, interaction) => {},
+    run: async (client, interaction) => {},
 };

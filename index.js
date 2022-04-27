@@ -1,12 +1,26 @@
-const Discord = require("discord.js");
-const { Client, Intents } = require("discord.js");
+import Discord, { Client, Intents } from "discord.js";
+import fs from "fs";
+import mysql from "mysql";
+
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_BANS],
     partials: ["MESSAGE", "CHANNEL"],
 });
 
-const fs = require("fs");
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
+
+global.con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: process.env.DB_NAME,
+});
+
+global.con.connect((err) => {
+    if (err) throw err;
+    console.log("Successfully Conncted to database");
+});
 
 global.Games = {};
 client.slashcommands = new Discord.Collection();
@@ -14,18 +28,18 @@ client.rawSlashCommands = [];
 
 fs.readdir("./events/", (err, files) => {
     if (err) return console.error(err);
-    files.forEach((file) => {
-        const event = require(`./events/${file}`);
+    files.forEach(async (file) => {
+        const event = await import(`./events/${file}`);
+
         let eventName = file.split(".")[0];
-        client.on(eventName, event.bind(null, client));
+        client.on(eventName, event.default.bind(null, client));
     });
 });
 
 fs.readdir("./commands/", (err, files) => {
-    files.forEach((file) => {
-        const cmd = require(`./commands/${file}`);
-        cmd.description = cmd.desc;
-        delete cmd.desc;
+    files.forEach(async (file) => {
+        const imported = await import(`./commands/${file}`);
+        const cmd = imported.default;
 
         if (["USER", "MESSAGE"].includes(cmd.type)) {
             cmd.description = "";
@@ -34,7 +48,7 @@ fs.readdir("./commands/", (err, files) => {
         if (cmd.userPermissions) cmd.defaultPermission = false;
 
         client.rawSlashCommands.push(cmd);
-        client.slashcommands.set(cmd.name, require(`./commands/${file}`));
+        client.slashcommands.set(cmd.name, cmd);
     });
 });
 
