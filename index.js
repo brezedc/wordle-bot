@@ -1,26 +1,16 @@
 const Discord = require("discord.js");
 const { Client, Intents } = require("discord.js");
-require("dotenv").config();
 const client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_BANS],
     partials: ["MESSAGE", "CHANNEL"],
 });
 
 const fs = require("fs");
-// const mysql = require("mysql");
-// const config = require("./config.json");
+require("dotenv").config();
 
-// global.con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "",
-//     database: process.env.DB_NAME,
-// });
-
-// global.con.connect((err) => {
-//     if (err) throw err;
-//     console.log("Conncted to database");
-// });
+global.Games = {};
+client.slashcommands = new Discord.Collection();
+client.rawSlashCommands = [];
 
 fs.readdir("./events/", (err, files) => {
     if (err) return console.error(err);
@@ -30,9 +20,6 @@ fs.readdir("./events/", (err, files) => {
         client.on(eventName, event.bind(null, client));
     });
 });
-
-client.slashcommands = new Discord.Collection();
-client.rawSlashCommands = [];
 
 fs.readdir("./commands/", (err, files) => {
     files.forEach((file) => {

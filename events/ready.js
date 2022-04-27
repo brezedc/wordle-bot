@@ -5,6 +5,8 @@ module.exports = async (client) => {
 
     if (config.devMode) {
         let guild = client.guilds.cache.get(config.guild);
+
+        if (!guild) return console.log("Could not find the guild in config.json.");
         await guild.commands.set(client.rawSlashCommands).then((cmd) => {
             const getRoles = (commandName) => {
                 const permissions = client.rawSlashCommands.find((x) => x.name === commandName).userPermissions;
@@ -38,6 +40,7 @@ module.exports = async (client) => {
             }, []);
 
             guild.commands.permissions.set({ fullPermissions });
+            console.log("Successfully started bot");
         });
     }
 };

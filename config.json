@@ -1,9 +1,9 @@
 {
     "devMode": true,
-    "guild": "YOUR_GUILD_ID",
+    "guild": "881548371192602624",
     "embeds": {
         "colors": {
-            "default": "0x00FF00",
+            "primary": "0x00FF00",
             "error": "0xFF0000",
             "success": "0x00FF00",
             "warning": "0xFFD700"
