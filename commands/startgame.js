@@ -9,7 +9,7 @@ export default {
     description: "Starts a new game.",
 
     run: async (client, interaction) => {
-        if (global.Games[interaction.channel.id]) return interaction.channel.send("There is already a game running in this channel.");
+        if (global.Games[interaction.channel.id]) return interaction.reply({ content: "There is already a game running in this channel.", empheral: true });
 
         let word = wordList[Math.floor(Math.random() * wordList.length)];
 
@@ -39,7 +39,7 @@ export default {
             });
 
         setTimeout(() => {
-            if (global.Games[interaction.channel.id]) {
+            if (global.Games[interaction.channel.id] && global.Games[interaction.channel.id]?.word == word) {
                 interaction.channel.send(`You didn't guess the word in time. The word was: **${word}**`);
                 delete global.Games[interaction.channel.id];
 

@@ -23,7 +23,7 @@ export default {
                     embeds: [
                         {
                             title: "Stats",
-                            description: `**${user.tag}**'s stats.\n\n**Wins:** ${stats.wins}\n**Rounds played:** ${stats.attempts}\n**Win Rate:** ${Math.floor((stats.wins / stats.attempts) * 100)}%\n**Record:** ${stats.record > 60 ? `${Math.floor(stats.record / 60)}m ${Math.floor(stats.record % 60)}s` : `${stats.record}s`}`,
+                            description: `**${user.tag}**'s stats.\n\n**Wins:** ${stats.wins}\n**Rounds played:** ${stats.attempts}\n**Win Rate:** ${Math.floor((stats.wins / stats.attempts) * 100)}%\n**Record:** ${stats.record ? (stats.record > 60 ? `${Math.floor(stats.record / 60)}m ${Math.floor(stats.record % 60)}s` : `${stats.record}s`) : "None"}`,
                             color: config.embeds.colors.primary,
                             thumbnail: {
                                 url: user.avatarURL(),
